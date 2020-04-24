@@ -14,10 +14,10 @@ import { CustomerTranslator } from './api/customer.translator'
     // DEVELOPER'S NOTE: NestJS integration with Mongoose for object-relationship mapping (ORM)
     imports: [MongooseModule.forFeature([{ name: 'Customer', schema: CustomerSchema }])],
 
-    // DEVELOPER'S NOTE: NestJS registration of @Controller() classes
+    // DEVELOPER'S NOTE: NestJS registration of @Controller() classes instantiated within this module.
     controllers: [CustomerController],
 
-    // DEVELOPER'S NOTE: NestJS registration of @Injectable() classes
+    // DEVELOPER'S NOTE: NestJS registration of @Injectable() classes instantiated within this module.
     providers: [CustomerService, CustomerTranslator]
 })
 

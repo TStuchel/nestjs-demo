@@ -26,7 +26,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
                     message: businessException.message,
                     type: businessException.name,
                     errors: businessException.errors
-                });
+                })
         }
 
         // All other intentional HttpExceptions
@@ -39,7 +39,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
                     statusCode: exception.getStatus(),
                     message: httpException.message,
                     type: exception.constructor.name
-                });
+                })
         }
 
         // Unexpected exception
@@ -52,7 +52,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
                     message: exception.message,
                     type: exception.constructor.name,
                     stack: exception.stack
-                });
+                })
         }
     }
 

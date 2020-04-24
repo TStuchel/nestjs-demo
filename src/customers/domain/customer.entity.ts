@@ -1,6 +1,6 @@
 import { ICustomer } from "../model/customer.model";
 import { BusinessException } from "../../common/business.exception";
-import { ValidationError } from "../../common/validation.error";
+import { validate, IsNotEmpty } from 'class-validator'
 
 /**
  * Business entity representing a Customer.
@@ -17,7 +17,11 @@ export class Customer implements ICustomer {
      * DEVELOPER'S NOTE: Replicated here to match ICustomer.
      */
     customerId: string
+
+    @IsNotEmpty()
     fullName: string
+
+    @IsNotEmpty()
     streetAddress: string
 
     /**
@@ -34,23 +38,14 @@ export class Customer implements ICustomer {
      * Validate this Customer, throwing a BusinessException containing all of the invalid properties
      * or business rule failures.
      */
-    public validate() {
+    async validate() {
 
-        // Potential validation errors
-        const validationErrors: ValidationError[] = []
-
-        // Check state
-        if (!this.streetAddress) {
-            validationErrors.push(new ValidationError("The customer's street address is required.", "streetAddress"))
-        }
-        if (!this.fullName) {
-            validationErrors.push(new ValidationError("The customer's full name is required.", "fullName"))
-        }
-
-        // Throw exception if anything is incorrect
-        if (validationErrors.length) {
-            throw new BusinessException("Invalid Customer", validationErrors)
-        }
+        // Exclude the "target" element from the error (this would return the entire object)
+        await validate(this, { validationError: { target: false } }).then(errors => {
+            if (errors.length) {
+                throw new BusinessException("Invalid Customer", errors)
+            }
+        })
     }
 
 }

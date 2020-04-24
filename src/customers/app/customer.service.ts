@@ -3,6 +3,8 @@ import { CustomerModel } from '../model/customer.model'
 import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
 import { Customer } from '../domain/customer.entity';
+import { User } from 'src/users/user.entity';
+import { CustomerPermission } from '../customer.permission';
 
 /**
  * This class provides business functionality for managing Customers.
@@ -21,18 +23,20 @@ import { Customer } from '../domain/customer.entity';
 @Injectable()
 export class CustomerService {
 
-    /**
-     * DEVELOPER'S NOTE: NestJS performs constructor-based dependency injection to pass singleton
-     * instances of these classes into this object. In addition, 
-     */
-    public constructor(
+    // Injected Dependencies
+    constructor(
         @InjectModel('Customer') private readonly customerModel: Model<CustomerModel>
     ) { }
 
     /**
      * Given a customer ID, find and return a Customer with the given ID.
      */
-    public async findCustomer(customerId: string): Promise<Customer | null> {
+    async findCustomer(user: User, customerId: string): Promise<Customer | null> {
+
+        // Security
+        user.checkHasPermissions([
+            CustomerPermission.VIEW_CUSTOMER
+        ], "Not authorized to find customers.")
 
         // Protect findOne()
         if (!this.isValidCustomerId(customerId)) {
@@ -50,10 +54,15 @@ export class CustomerService {
     /**
      * Given a Customer, create and return a Customer with a new ID.
      */
-    public async createCustomer(customer: Customer): Promise<Customer> {
+    async createCustomer(user: User, customer: Customer): Promise<Customer> {
+
+        // Security
+        user.checkHasPermissions([
+            CustomerPermission.CREATE_CUSTOMER
+        ], "Not authorized to create customers.")
 
         // Validate the Customer (may throw BusinessException)
-        customer.validate()
+        await customer.validate()
 
         // Create the customer
         const newCustomer: CustomerModel = new this.customerModel(customer)
@@ -64,7 +73,7 @@ export class CustomerService {
     /**
      * Returns whether or not the given customer ID is valid.
      */
-    private isValidCustomerId(customerId: string): boolean {
+    isValidCustomerId(customerId: string): boolean {
         return !!customerId && customerId.length === 24
     }
 

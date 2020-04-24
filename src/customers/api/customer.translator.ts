@@ -17,7 +17,7 @@ export class CustomerTranslator {
     /**
      * Translate the given Customer to a new CustomerDTO contract.
      */
-    public toContract(customer: Customer): CustomerDTO {
+    toContract(customer: Customer): CustomerDTO {
         return new CustomerDTO(
             customer.customerId,
             customer.streetAddress,
@@ -28,7 +28,7 @@ export class CustomerTranslator {
     /**
      * Translate the given CustomerDTO to a new Customer entity.
      */
-    public toEntity(customerDto: CustomerDTO): Customer {
+    toEntity(customerDto: CustomerDTO): Customer {
         return new Customer({
             customerId: customerDto.customerId,
             streetAddress: customerDto.streetAddress,
