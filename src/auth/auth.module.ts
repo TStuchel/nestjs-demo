@@ -3,24 +3,37 @@ import { JwtModule } from "@nestjs/jwt"
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 import { PassportModule } from "@nestjs/passport";
-import { JwtStrategy } from "./strategies/jwt.strategy";
+import { JwtStrategy } from "./jwt/jwt.strategy";
 import { jwtConstants } from "./auth.constants";
-import { UsersModule } from "src/users/users.module";
-import { JwtAuthGuard } from "./guards/jwt.guard";
+import { JwtAuthGuard } from "./jwt/jwt.guard";
+import { UserService } from "./user/user.service";
 
 @Module({
 
-  // DEVELOPER'S NOTE: NestJS reference to external modules used by this module.
-  imports: [PassportModule, UsersModule, JwtModule.register(jwtConstants)],
+  // External modules directly used by this module
+  imports: [
+    PassportModule,
+    JwtModule.register(jwtConstants),
+  ],
 
-  // DEVELOPER'S NOTE: NestJS registration of @Controller() classes instantiated within this module.
-  controllers: [AuthController],
+  // @Controller() classes instantiated within this module.
+  controllers: [
+    AuthController
+  ],
 
-  // DEVELOPER'S NOTE: NestJS registration of @Injectable() classes instantiated within this module.
-  providers: [AuthService, JwtAuthGuard, JwtStrategy],
+  // @Injectable() classes instantiated within this module.
+  providers: [
+    JwtStrategy,
+    AuthService,
+    JwtAuthGuard,
+    UserService
+  ],
 
-  // DEVELOPER'S NOTE: NestJS subset of providers: exported/shared out of this module.
-  exports: [JwtAuthGuard]
+  // Subset of 'providers:' exposed/exported to external modules (this module's public API).
+  exports: [
+    JwtAuthGuard,
+    UserService
+  ]
 
 })
 

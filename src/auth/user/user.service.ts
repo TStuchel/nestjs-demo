@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { User, IUser } from './user.entity';
 import * as bcrypt from 'bcryptjs'
-import { CustomerPermission } from 'src/customers/customer.permission';
+import { CustomerPermission } from '../permissions/customer.permission';
 
 /**
  * This service provides access to User information which is loaded when the user is first requests a

@@ -1,5 +1,5 @@
 import { Catch, ExceptionFilter, ArgumentsHost, HttpStatus, HttpException } from "@nestjs/common";
-import { BusinessException } from "../business.exception";
+import { BusinessException } from "./business.exception";
 import { Request, Response } from 'express';
 
 /**
@@ -53,6 +53,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
                     type: exception.constructor.name,
                     stack: exception.stack
                 })
+            console.error(exception)
         }
     }
 

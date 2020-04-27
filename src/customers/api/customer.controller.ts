@@ -1,11 +1,11 @@
-import { Controller, UseFilters, Get, Param, NotFoundException, Post, Body, UseGuards, Req } from '@nestjs/common';
-import { GlobalExceptionFilter } from '../../common/api/global.exception.filter';
-import { CustomerDTO } from './contract/customer.contract';
-import { CustomerTranslator } from './customer.translator';
-import { Customer } from '../domain/customer.entity';
-import { CustomerService } from '../app/customer.service';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { IUser, User } from 'src/users/user.entity';
+import { Controller, UseFilters, Get, Param, NotFoundException, Post, Body, UseGuards, Req } from '@nestjs/common'
+import { GlobalExceptionFilter } from '../../common/global.exception.filter'
+import { CustomerDTO } from './contract/customer.contract'
+import { CustomerTranslator } from './customer.translator'
+import { Customer } from '../domain/customer.entity'
+import { CustomerService } from '../app/customer.service'
+import { JwtAuthGuard } from '../../auth/jwt/jwt.guard'
+import { IUser, User } from '../../auth/user/user.entity'
 
 /**
  * This REST API controller is responsible for providing an API for managing Customer entities.

@@ -3,8 +3,8 @@ import { CustomerModel } from '../model/customer.model'
 import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
 import { Customer } from '../domain/customer.entity';
-import { User } from 'src/users/user.entity';
-import { CustomerPermission } from '../customer.permission';
+import { User } from '../../auth/user/user.entity';
+import { CustomerPermission } from '../../auth/permissions/customer.permission';
 
 /**
  * This class provides business functionality for managing Customers.
