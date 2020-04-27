@@ -1,14 +1,14 @@
 import { Controller, Get, Request, UnauthorizedException } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { IncomingMessage } from "http";
 import { BasicAuthResult } from "basic-auth";
 import auth = require("basic-auth");
+import { IncomingMessage } from "http";
 
 /**
  * This controller provides basic authentication to respond with a JWT token given a user's valid
  * credentials (username/password).
  */
-@Controller('/v1/token')
+@Controller()
 export class AuthController {
 
     // Injected Dependencies
@@ -19,8 +19,8 @@ export class AuthController {
     /**
      * Given an HTTP request containing Basic Auth credentials, return a JWT token.
      */
-    @Get()
-    async getToken(@Request() req: IncomingMessage): Promise<any> {
+    @Get('/v1/token')
+    async getToken(@Request() req: IncomingMessage): Promise<string> {
 
         // Get the credentials from basic auth
         const user: BasicAuthResult | undefined = auth(req)

@@ -17,7 +17,7 @@ export class AuthService {
      * Validate the given credentials and return a JWT token if valid.
      */
     async login(username: string, password: string): Promise<any> {
-
+        console.log("OOPS!=============>" + username)
         // Get the user with the given username/password
         const user: User | undefined = await this.userService.findOne(username, password)
         if (!user) {

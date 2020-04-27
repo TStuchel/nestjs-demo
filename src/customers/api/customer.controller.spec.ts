@@ -32,16 +32,19 @@ const initializeNest = async (customerService: any): Promise<INestApplication> =
   return await moduleRef.createNestApplication().init()
 }
 
+// --
 describe('Customer Controller', () => {
 
   // --
   describe('Find a customer by ID', () => {
 
+    let app: INestApplication;
+
     // GIVEN a customer exists in the system AND a customer ID is provided
-    test('GET /v1/customers/:customerId', async () => {
+    test('GET /v1/customers/:customerId', async (done) => {
 
       // Initialize NestJS environment
-      const app: INestApplication = await initializeNest({
+      app = await initializeNest({
         findCustomer: async (clientUser: User, customerId: string) => {
           return customer
         }
@@ -61,16 +64,14 @@ describe('Customer Controller', () => {
           expect(response.body.streetAddress).toBe(customer.streetAddress)
           expect(response.body.fullName).toBe(customer.fullName)
         })
-
-      // Shut down Nest
-      await app.close()
+        .end(done)
     })
 
     // GIVEN a customer does not exist in the system AND a customer ID is provided
-    test('GET /v1/customers/:customerId', async () => {
+    test('GET /v1/customers/:customerId', async (done) => {
 
       // Initialize NestJS environment
-      const app: INestApplication = await initializeNest({
+      app = await initializeNest({
         findCustomer: async (clientUser: User, customerId: string) => {
           return null
         }
@@ -91,21 +92,25 @@ describe('Customer Controller', () => {
           expect(response.body.message).toBe(`Customer [${customer.customerId}] was not found.`)
           expect(response.body.type).toBe('NotFoundException')
         })
-
-      // Shut down Nest
-      await app.close()
+        .end(done)
     })
 
+    // Shut down Nest
+    afterEach(async () => {
+      await app.close()
+    })
   })
 
   // --
   describe('Create a customer', () => {
 
+    let app: INestApplication
+
     // GIVEN the details of a new customer
-    test('POST /v1/customers', async () => {
+    test('POST /v1/customers', async (done) => {
 
       // Initialize NestJS environment
-      const app: INestApplication = await initializeNest({
+      app = await initializeNest({
         createCustomer: async (clientUser: User, customerId: string) => {
           return customer
         }
@@ -126,8 +131,11 @@ describe('Customer Controller', () => {
           expect(response.body.streetAddress).toBe(customer.streetAddress)
           expect(response.body.fullName).toBe(customer.fullName)
         })
+        .end(done)
+    })
 
-      // Shut down Nest
+    // Shut down Nest
+    afterEach(async () => {
       await app.close()
     })
   })
