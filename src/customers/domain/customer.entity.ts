@@ -43,7 +43,7 @@ export class Customer implements ICustomer {
         // Exclude the "target" element from the error (this would return the entire object)
         await validate(this, { validationError: { target: false } }).then(errors => {
             if (errors.length) {
-                throw new BusinessException("Invalid Customer", errors)
+                throw new BusinessException('Invalid Customer', errors)
             }
         })
     }
