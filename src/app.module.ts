@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { AuthModule } from './auth/auth.module'
-import { CustomersModule } from './customers/customer.module'
+import { CustomerModule } from './customers/customer.module'
 import { AppController } from './app.controller'
 
 @Module({
@@ -9,7 +9,7 @@ import { AppController } from './app.controller'
   // should be listed so that routes can be instantiated.
   imports: [
     AuthModule,
-    CustomersModule
+    CustomerModule
   ],
 
   // @Controller() classes instantiated within this module.

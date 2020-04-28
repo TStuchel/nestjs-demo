@@ -36,7 +36,7 @@ export class CustomerService {
         // Security
         user.checkHasPermissions([
             CustomerPermission.VIEW_CUSTOMER
-        ], "Not authorized to find customers.")
+        ], 'Not authorized to find customers.')
 
         // Protect findOne()
         if (!this.isValidCustomerId(customerId)) {

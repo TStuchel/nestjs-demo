@@ -1,6 +1,6 @@
 import * as request from 'supertest'
 import { Test, TestingModule } from '@nestjs/testing';
-import { CustomersModule } from '../customer.module';
+import { CustomerModule } from '../customer.module';
 import { Customer } from '../domain/customer.entity';
 import { CustomerService } from '../app/customer.service';
 import { INestApplication } from '@nestjs/common';
@@ -24,7 +24,7 @@ const customer: Customer =
 const initializeNest = async (customerService: any): Promise<INestApplication> => {
   const moduleRef: TestingModule = await Test.createTestingModule({
     imports: [
-      CustomersModule,
+      CustomerModule,
     ],
   })
     .overrideProvider(CustomerService).useValue(customerService)
@@ -46,6 +46,8 @@ describe('Customer Controller', () => {
       // Initialize NestJS environment
       app = await initializeNest({
         findCustomer: async (clientUser: User, customerId: string) => {
+          expect(clientUser).toBeDefined()
+          expect(customerId).toBeDefined()
           return customer
         }
       })
@@ -73,6 +75,8 @@ describe('Customer Controller', () => {
       // Initialize NestJS environment
       app = await initializeNest({
         findCustomer: async (clientUser: User, customerId: string) => {
+          expect(clientUser).toBeDefined()
+          expect(customerId).toBeDefined()
           return null
         }
       })
@@ -112,6 +116,8 @@ describe('Customer Controller', () => {
       // Initialize NestJS environment
       app = await initializeNest({
         createCustomer: async (clientUser: User, customerId: string) => {
+          expect(clientUser).toBeDefined()
+          expect(customerId).toBeDefined()
           return customer
         }
       })

@@ -39,4 +39,4 @@ import { CommonModule } from '../common/common.module'
     ]
 })
 
-export class CustomersModule { }
+export class CustomerModule { }
