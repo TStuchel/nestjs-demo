@@ -11,7 +11,7 @@ const randomString = () => { return Math.random().toString(36).substring(2, 15) 
 // JWT token used for testing
 const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJwZXJtaXNzaW9ucyI6WyJWSUVXX0NVU1RPTUVSIiwiQ1JFQVRFX0NVU1RPTUVSIl0sImlhdCI6MTU4Nzk5ODgxM30.FKQy2_uRQ5ak2A2gsmkND7WehROMDcmNh4UsJP4mhdM';
 
-// Stub Customer
+// Stub User
 const user: User =
     new User({
         userId: 1234,
@@ -46,6 +46,8 @@ describe('Auth Controller', () => {
             // Initialize NestJS environment
             app = await initializeNest({
                 login: async (username: string, password: string): Promise<any> => {
+                    expect(username).toBeTruthy()
+                    expect(password).toBeTruthy()
                     return { token: jwtToken }
                 }
             })
@@ -73,6 +75,8 @@ describe('Auth Controller', () => {
             // Initialize NestJS environment
             app = await initializeNest({
                 login: async (username: string, password: string): Promise<any> => {
+                    expect(username).toBeTruthy()
+                    expect(password).toBeTruthy()
                     return null
                 }
             })
