@@ -1,14 +1,16 @@
-import { Controller, Get, Request, UnauthorizedException } from "@nestjs/common";
+import { Controller, Get, Request, UnauthorizedException, UseFilters } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { BasicAuthResult } from "basic-auth";
 import auth = require("basic-auth");
 import { IncomingMessage } from "http";
+import { GlobalExceptionFilter } from "../common/global.exception.filter";
 
 /**
  * This controller provides basic authentication to respond with a JWT token given a user's valid
  * credentials (username/password).
  */
 @Controller()
+@UseFilters(GlobalExceptionFilter) // Handles exceptions thrown by the application.
 export class AuthController {
 
     // Injected Dependencies

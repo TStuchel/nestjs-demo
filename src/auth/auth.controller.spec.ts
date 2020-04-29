@@ -92,9 +92,10 @@ describe('Auth Controller', () => {
 
                 // AND the response body should contain the expected error
                 .expect(response => {
+                    expect(response.body.url).toBe('/v1/token')
                     expect(response.body.statusCode).toBe(401)
                     expect(response.body.message).toBe('Invalid credentials')
-                    expect(response.body.error).toBe('Unauthorized')
+                    expect(response.body.type).toBe('UnauthorizedException')
                 })
                 .end(done)
         })
@@ -114,9 +115,10 @@ describe('Auth Controller', () => {
 
                 // AND the response body should contain the expected error
                 .expect(response => {
+                    expect(response.body.url).toBe('/v1/token')
                     expect(response.body.statusCode).toBe(401)
                     expect(response.body.message).toBe('Invalid credentials')
-                    expect(response.body.error).toBe('Unauthorized')
+                    expect(response.body.type).toBe('UnauthorizedException')
                 })
                 .end(done)
         })

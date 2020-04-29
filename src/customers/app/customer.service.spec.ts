@@ -105,36 +105,37 @@ describe('CustomerService', () => {
 
     })
 
-    // // --
-    // describe('Given a user that has create permissons and a valid customer', () => {
-    //   const user: User = createTestUser([CustomerPermission.CREATE_CUSTOMER])
+    // --
+    describe('Given a user that has create permissons and a valid customer', () => {
+      const user: User = createTestUser([CustomerPermission.CREATE_CUSTOMER])
 
-    //   // Initialize Nest testing module
-    //   let testingModule: TestingModule
-    //   let customerService: CustomerService
-    //   beforeAll(async () => {
-    //     testingModule = await createTestingModule({
-    //       constructor: expectedCustomer.constructor,
-    //       save: () => { return expectedCustomer }
-    //     })
-    //     customerService = testingModule.get<CustomerService>(CustomerService)
-    //   })
+      // Initialize Nest testing module
+      let testingModule: TestingModule
+      let customerService: CustomerService
+      beforeAll(async () => {
+        testingModule = await createTestingModule(function () { // not an arrow()!
+          return {
+            save: () => { return expectedCustomer }
+          }
+        })
+        customerService = testingModule.get<CustomerService>(CustomerService)
+      })
 
-    //   let actualCustomer: Customer | null
-    //   beforeEach(async () => {
-    //     actualCustomer = await customerService.createCustomer(user, expectedCustomer)
-    //   })
+      let actualCustomer: Customer | null
+      beforeEach(async () => {
+        actualCustomer = await customerService.createCustomer(user, expectedCustomer)
+      })
 
-    //   it('should return the created customer', () => {
-    //     expect(actualCustomer).toBe(expectedCustomer)
-    //   })
+      it('should return the created customer', () => {
+        expect(actualCustomer).toBe(expectedCustomer)
+      })
 
-    //   // Close Nest testing module
-    //   afterAll(async () => {
-    //     await testingModule.close()
-    //   })
+      // Close Nest testing module
+      afterAll(async () => {
+        await testingModule.close()
+      })
 
-    // })
+    })
 
   })
 
@@ -228,6 +229,40 @@ describe('CustomerService', () => {
         expect(actualCustomer).not.toBeNull()
         expect(actualCustomer?.streetAddress).toBe(expectedCustomer.streetAddress)
         expect(actualCustomer?.fullName).toBe(expectedCustomer.fullName)
+      })
+
+      // Close Nest testing module
+      afterAll(async () => {
+        await testingModule.close()
+      })
+
+    })
+
+    // --
+    describe('Given user with view permissions and a customer ID that does not exist', () => {
+      const customerId = createCustomerId()
+      const user: User = createTestUser([CustomerPermission.VIEW_CUSTOMER])
+
+      // Initialize Nest testing module
+      let testingModule: TestingModule
+      let customerService: CustomerService
+      beforeAll(async () => {
+        testingModule = await createTestingModule({
+          findOne: (filter: any): any => {
+            expect(filter).toBeDefined()
+            return null
+          }
+        })
+        customerService = testingModule.get<CustomerService>(CustomerService)
+      })
+
+      let actualCustomer: Customer | null
+      beforeEach(async () => {
+        actualCustomer = await customerService.findCustomer(user, customerId)
+      })
+
+      it('should return null', () => {
+        expect(actualCustomer).toBeNull()
       })
 
       // Close Nest testing module

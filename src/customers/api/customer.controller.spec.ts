@@ -38,7 +38,7 @@ describe('Customer Controller', () => {
   // --
   describe('Find a customer by ID', () => {
 
-    let app: INestApplication;
+    let app: INestApplication
 
     // GIVEN a customer exists in the system AND a customer ID is provided
     test('GET /v1/customers/:customerId', async (done) => {
@@ -144,6 +144,48 @@ describe('Customer Controller', () => {
     afterEach(async () => {
       await app.close()
     })
+  })
+
+  // --
+  describe('Given an unknown exception is thrown', () => {
+
+    let app: INestApplication
+
+    test('should return an Internal Server Error', async (done) => {
+
+      // Initialize NestJS environment
+      app = await initializeNest({
+        createCustomer: async (clientUser: User, customerId: string) => {
+          expect(clientUser).toBeDefined()
+          expect(customerId).toBeDefined()
+          throw Error('Unexpected error!')
+        }
+      })
+
+      request(app.getHttpServer())
+        .post(`/v1/customers`)
+        .set('Authorization', `Bearer ${jwtToken}`)
+        .send(customer)
+
+        // THEN the response should have an HTTP status code of 500-Internal Server Error
+        .expect(500)
+
+        // AND the response body should contain the newly created customer
+        .expect(response => {
+          expect(response.body.url).toBe(`/v1/customers`)
+          expect(response.body.statusCode).toBe(500)
+          expect(response.body.message).toBe('Unexpected error!')
+          expect(response.body.type).toBe('Error')
+          expect(response.body.stack).toBeDefined()
+        })
+        .end(done)
+    })
+
+    // Shut down Nest
+    afterEach(async () => {
+      await app.close()
+    })
+
   })
 
 })

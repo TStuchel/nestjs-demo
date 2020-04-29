@@ -7,11 +7,13 @@ import { JwtStrategy } from "./jwt/jwt.strategy";
 import { jwtConstants } from "./auth.constants";
 import { JwtAuthGuard } from "./jwt/jwt.guard";
 import { UserService } from "./user/user.service";
+import { CommonModule } from "../common/common.module";
 
 @Module({
 
   // External modules directly used by this module
   imports: [
+    CommonModule,
     PassportModule,
     JwtModule.register(jwtConstants),
   ],
@@ -31,6 +33,7 @@ import { UserService } from "./user/user.service";
 
   // Subset of 'providers:' exposed/exported to external modules (this module's public API).
   exports: [
+    CommonModule,
     JwtAuthGuard,
     UserService
   ]
