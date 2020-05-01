@@ -1,8 +1,6 @@
 import { User } from "./user.entity"
 import { ForbiddenException } from "@nestjs/common"
-
-// Random string
-const randomString = () => { return Math.random().toString(36).substring(2, 15) }
+import { randomString } from "../../common/test.utils"
 
 describe('User Entity', () => {
 
@@ -41,8 +39,8 @@ describe('User Entity', () => {
         describe('Given a user with all of the requisite permissions', () => {
 
             it('should accept that the user has the permission', () => {
-                // No exception
                 newUser.checkHasPermissions([newUser.permissions[0]], message)
+                // No ForbiddenException
             })
 
         })

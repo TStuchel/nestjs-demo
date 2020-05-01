@@ -5,9 +5,7 @@ import { Customer } from '../domain/customer.entity';
 import { CustomerService } from '../app/customer.service';
 import { INestApplication } from '@nestjs/common';
 import { User } from '../../auth/user/user.entity';
-
-// Random string
-const randomString = () => { return Math.random().toString(36).substring(2, 15) }
+import { randomString } from "../../common/test.utils"
 
 // JWT token used for testing
 const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJwZXJtaXNzaW9ucyI6WyJWSUVXX0NVU1RPTUVSIiwiQ1JFQVRFX0NVU1RPTUVSIl0sImlhdCI6MTU4Nzk5ODgxM30.FKQy2_uRQ5ak2A2gsmkND7WehROMDcmNh4UsJP4mhdM';

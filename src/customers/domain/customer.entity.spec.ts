@@ -1,8 +1,6 @@
 import { Customer } from "./customer.entity"
 import { BusinessException } from "../../common/business.exception"
-
-// Random string
-const randomString = () => { return Math.random().toString(36).substring(2, 15) }
+import { randomString } from "../../common/test.utils"
 
 describe('Customer Entity', () => {
 

@@ -4,9 +4,7 @@ import { AuthModule } from "./auth.module"
 import { Test, TestingModule } from "@nestjs/testing"
 import { AuthService } from "./auth.service"
 import { UnauthorizedException } from "@nestjs/common"
-
-// Random string
-const randomString = () => { return Math.random().toString(36).substring(2, 15) }
+import { randomString } from "../common/test.utils"
 
 describe('AuthService', () => {
 

@@ -7,8 +7,10 @@ import { CustomerPermission } from '../../auth/permissions/customer.permission'
 import { getModelToken } from '@nestjs/mongoose'
 import { ForbiddenException } from '@nestjs/common'
 import { BusinessException } from '../../common/business.exception'
-
-const randomString = () => { return Math.random().toString(36).substring(2, 15) }
+import { randomString } from "../../common/test.utils"
+import * as sinon from 'sinon'
+import { CustomerModel } from '../model/customer.model'
+import { Model } from 'mongoose'
 
 // Helper function to create a customer ID
 const createCustomerId = () => {
@@ -39,6 +41,15 @@ const createTestingModule = async (customerModelMock: any): Promise<TestingModul
     .overrideProvider(getModelToken('Customer')).useValue(customerModelMock)
     .compile()
 }
+
+describe('Playground', () => {
+  //const customerModel: Model<CustomerModel, {}> = sinon.stub(Model.prototype.base.Model, 'save')
+  //const customerModel: sinon.SinonStubbedInstance<Model<CustomerModel>> = sinon.createStubInstance(Model)
+  //const customerService: CustomerService = new CustomerService(customerModel)
+
+
+
+})
 
 describe('CustomerService', () => {
 
